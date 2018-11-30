@@ -41,6 +41,7 @@
 </div>
 <div>
 <h3>Results</h3>
+    <p th:text="'Displaying ' + ${jobs.size()} + ' jobs'"></p>
         <table class="job-listing" th:each="job : ${jobs}">
             <tbody>
                 <tr th:each="key : ${job.keySet()}">
