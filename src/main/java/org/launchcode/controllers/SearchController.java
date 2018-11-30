@@ -4,10 +4,12 @@ import org.launchcode.models.JobData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by LaunchCode
@@ -24,4 +26,18 @@ public class SearchController {
 
     // TODO #1 - Create handler to process search request and display results
 
+    @RequestMapping(value = "results")
+    public String results(Model model, @RequestParam String searchType, @RequestParam String searchTerm) {
+        ArrayList<HashMap<String, String>> jobs;
+        if (searchType.equals("all")) {
+            model.addAttribute("title", "All Jobs");
+            jobs = JobData.findByValue(searchTerm);
+        } else {
+            model.addAttribute("title", "Jobs with " + searchType +": "+ searchTerm);
+            jobs = JobData.findByColumnAndValue(searchType, searchTerm);
+        }
+        model.addAttribute("jobs", jobs);
+        return "search"; //not sure if it will work maybe add the actual model like above
+    }
 }
+
